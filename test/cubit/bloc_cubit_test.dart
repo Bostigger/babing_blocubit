@@ -1,5 +1,6 @@
-import 'package:babing_cubit/cubit/bloc_cubit.dart';
-import 'package:babing_cubit/cubit/bloc_cubit_state.dart';
+
+import 'package:babing_cubit/logic/cubit/bloc_cubit.dart';
+import 'package:babing_cubit/logic/cubit/bloc_cubit_state.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

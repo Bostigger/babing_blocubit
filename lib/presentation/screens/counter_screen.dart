@@ -1,7 +1,10 @@
-import 'package:babing_cubit/cubit/bloc_cubit.dart';
-import 'package:babing_cubit/cubit/bloc_cubit_state.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../logic/cubit/bloc_cubit.dart';
+import '../../logic/cubit/bloc_cubit_state.dart';
+import 'next_screen.dart';
 
 class CounterScreen extends StatelessWidget {
   const CounterScreen({Key? key}) : super(key: key);
@@ -81,6 +84,9 @@ class CounterScreen extends StatelessWidget {
                 ),
               ],
             ),
+            MaterialButton(onPressed: (){
+             Navigator.of(context).pushNamed('/second');
+            },child: Text('Next Room'),)
           ],
         ),
       ),
