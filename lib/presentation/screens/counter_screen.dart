@@ -1,4 +1,7 @@
 
+import 'package:babing_cubit/logic/bloc/counter.event.dart';
+import 'package:babing_cubit/logic/bloc/counter_bloc.dart';
+import 'package:babing_cubit/logic/bloc/counter_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -13,7 +16,7 @@ class CounterScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Counter Increment With Cubit"),
+        title: const Text("Counter Increment With Bloc"),
       ),
       body: Center(
         child: Column(
@@ -21,18 +24,18 @@ class CounterScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              "Counter Increment With Cubit",
+              "State Managed With Bloc",
               style: Theme.of(context).textTheme.headline6,
             ),
             const SizedBox(height: 16),
-            BlocConsumer<CounterCubit, CounterState>(
+            BlocConsumer<CounterBloc, CounterBlocState>(
                 builder: (BuildContext context, state) {
-              if (state.initialValue < 0) {
+              if (state.counter < 0) {
                 return Column(
                   children: [
                     const Text("Eii we are in negative o"),
                     Text(
-                      state.initialValue.toString(),
+                     context.watch<CounterBloc>().state.counter.toString(),
                       style: Theme.of(context).textTheme.headline1,
                     ),
                   ],
@@ -42,7 +45,7 @@ class CounterScreen extends StatelessWidget {
                   children: [
                     const Text("We are good!"),
                     Text(
-                      state.initialValue.toString(),
+                      state.counter.toString(),
                       style: Theme.of(context).textTheme.headline1,
                     ),
                   ],
@@ -70,15 +73,17 @@ class CounterScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 FloatingActionButton(
+                  heroTag: 'decrement',
                   onPressed: () {
-                    BlocProvider.of<CounterCubit>(context).decrementCounter();
+                    context.read<CounterBloc>().add(DecrementCounterEvent());
                   },
                   child: const Icon(Icons.remove),
                 ),
                 const SizedBox(width: 32),
                 FloatingActionButton(
+                  heroTag: 'increment',
                   onPressed: () {
-                    BlocProvider.of<CounterCubit>(context).incrementCounter();
+                   context.read<CounterBloc>().add(IncrementCounterEvent());
                   },
                   child: const Icon(Icons.add),
                 ),

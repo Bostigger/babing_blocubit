@@ -21,7 +21,7 @@ class ThirdScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              "Last Room Here",
+              "State Managed With Cubit",
               style: Theme.of(context).textTheme.headline6,
             ),
             const SizedBox(height: 16),
@@ -70,6 +70,7 @@ class ThirdScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 FloatingActionButton(
+                  heroTag: 'increment',
                   backgroundColor: Colors.cyan,
                   onPressed: () {
                     BlocProvider.of<CounterCubit>(context).decrementCounter();
@@ -78,6 +79,7 @@ class ThirdScreen extends StatelessWidget {
                 ),
                 const SizedBox(width: 32),
                 FloatingActionButton(
+                  heroTag: 'decrement',
                   backgroundColor: Colors.cyan,
                   onPressed: () {
                     BlocProvider.of<CounterCubit>(context).incrementCounter();
