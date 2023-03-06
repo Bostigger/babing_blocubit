@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../logic/cubit/bloc_cubit.dart';
 import '../../logic/cubit/bloc_cubit_state.dart';
-import 'next_screen.dart';
+
 
 class CounterScreen extends StatelessWidget {
   const CounterScreen({Key? key}) : super(key: key);
@@ -13,7 +13,7 @@ class CounterScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Counter Increment With Cubit"),
+        title: const Text("Counter Increment With Cubit"),
       ),
       body: Center(
         child: Column(
@@ -24,7 +24,7 @@ class CounterScreen extends StatelessWidget {
               "Counter Increment With Cubit",
               style: Theme.of(context).textTheme.headline6,
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             BlocConsumer<CounterCubit, CounterState>(
                 builder: (BuildContext context, state) {
               if (state.initialValue < 0) {
@@ -51,21 +51,21 @@ class CounterScreen extends StatelessWidget {
             }, listener: (BuildContext context, state) {
               if (state.wasIncremented) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
+                  const SnackBar(
                     content: Text("Incremented"),
                     duration: Duration(milliseconds: 300),
                   ),
                 );
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
+                  const SnackBar(
                     content: Text("Decremented"),
                     duration: Duration(milliseconds: 300),
                   ),
                 );
               }
             }),
-            SizedBox(height: 32),
+            const SizedBox(height: 32),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -75,7 +75,7 @@ class CounterScreen extends StatelessWidget {
                   },
                   child: const Icon(Icons.remove),
                 ),
-                SizedBox(width: 32),
+                const SizedBox(width: 32),
                 FloatingActionButton(
                   onPressed: () {
                     BlocProvider.of<CounterCubit>(context).incrementCounter();
@@ -84,9 +84,25 @@ class CounterScreen extends StatelessWidget {
                 ),
               ],
             ),
-            MaterialButton(onPressed: (){
-             Navigator.of(context).pushNamed('/second');
-            },child: Text('Next Room'),)
+            const SizedBox(height: 20),
+            MaterialButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed('/second');
+              },
+              color: Colors.green,
+              padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              child: const Text(
+                'NEXT ROOM ▶',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            )
           ],
         ),
       ),

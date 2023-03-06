@@ -12,7 +12,8 @@ class ThirdScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Last Screen"),
+        backgroundColor: Colors.cyan,
+        title: const Text("Last Screen"),
       ),
       body: Center(
         child: Column(
@@ -20,10 +21,10 @@ class ThirdScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              "Second Room Here",
+              "Last Room Here",
               style: Theme.of(context).textTheme.headline6,
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             BlocConsumer<CounterCubit, CounterState>(
                 builder: (BuildContext context, state) {
                   if (state.initialValue < 0) {
@@ -50,32 +51,34 @@ class ThirdScreen extends StatelessWidget {
                 }, listener: (BuildContext context, state) {
               if (state.wasIncremented) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
+                  const SnackBar(
                     content: Text("Incremented"),
                     duration: Duration(milliseconds: 300),
                   ),
                 );
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
+                  const SnackBar(
                     content: Text("Decremented"),
                     duration: Duration(milliseconds: 300),
                   ),
                 );
               }
             }),
-            SizedBox(height: 32),
+            const SizedBox(height: 32),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 FloatingActionButton(
+                  backgroundColor: Colors.cyan,
                   onPressed: () {
                     BlocProvider.of<CounterCubit>(context).decrementCounter();
                   },
                   child: const Icon(Icons.remove),
                 ),
-                SizedBox(width: 32),
+                const SizedBox(width: 32),
                 FloatingActionButton(
+                  backgroundColor: Colors.cyan,
                   onPressed: () {
                     BlocProvider.of<CounterCubit>(context).incrementCounter();
                   },
@@ -83,6 +86,26 @@ class ThirdScreen extends StatelessWidget {
                 ),
               ],
             ),
+            const SizedBox(height: 20),
+            MaterialButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed('/');
+              },
+              color: Colors.cyan,
+              padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              child: const Text(
+                'FIRST ROOM ▶',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            )
+
 
           ],
         ),
