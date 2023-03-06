@@ -21,7 +21,7 @@ class NextScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              "Second Room Here",
+              "State Managed with Cubit",
               style: Theme.of(context).textTheme.headline6,
             ),
             const SizedBox(height: 16),
@@ -70,6 +70,7 @@ class NextScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 FloatingActionButton(
+                  heroTag: 'increment',
                   backgroundColor: Colors.lightGreen,
                   onPressed: () {
                     BlocProvider.of<CounterCubit>(context).decrementCounter();
@@ -78,6 +79,7 @@ class NextScreen extends StatelessWidget {
                 ),
                 const SizedBox(width: 32),
                 FloatingActionButton(
+                  heroTag: 'decrement',
                   backgroundColor: Colors.lightGreen,
                   onPressed: () {
                     BlocProvider.of<CounterCubit>(context).incrementCounter();
