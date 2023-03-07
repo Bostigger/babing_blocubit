@@ -1,7 +1,10 @@
+import 'package:babing_cubit/logic/bloc/theme/theme.bloc.dart';
+import 'package:babing_cubit/logic/bloc/theme/theme.state.dart';
 import 'package:babing_cubit/logic/cubit/bloc_cubit.dart';
 import 'package:babing_cubit/presentation/routes/app_router.dart';
 import 'package:babing_cubit/presentation/screens/counter_screen.dart';
 import 'package:babing_cubit/presentation/screens/next_screen.dart';
+import 'package:babing_cubit/presentation/screens/payload_screen.dart';
 import 'package:babing_cubit/presentation/screens/third_screen.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +31,17 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final AppRouter appRouter = AppRouter();
+  ThemeData darkTheme = ThemeData.from(
+    colorScheme: ColorScheme.dark(),
+    textTheme: TextTheme(
+      bodyText1: TextStyle(
+        color: Colors.white,
+      ),
+      bodyText2: TextStyle(
+        color: Colors.white,
+      ),
+    ),
+  );
 
   @override
   void dispose() {
@@ -38,13 +52,17 @@ class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'BloCubit',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.yellow,
+    return BlocProvider<ThemeBloc>(
+      create: (context)=>ThemeBloc(),
+      child: BlocBuilder<ThemeBloc,ThemeBlocState>(
+        builder:(context,state){ return MaterialApp(
+          title: 'BloCubit',
+          debugShowCheckedModeBanner: false,
+          theme:state.appThemeState==ThemeStates.dark?darkTheme:ThemeData.light(),
+         //onGenerateRoute: appRouter.onGenerateRoute,
+          home: PayLoadScreen(),
+         );},
       ),
-     onGenerateRoute: appRouter.onGenerateRoute,
     );
   }
 }
