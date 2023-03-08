@@ -1,8 +1,11 @@
 import 'package:babing_cubit/logic/bloc/theme/theme.bloc.dart';
 import 'package:babing_cubit/logic/bloc/theme/theme.state.dart';
 import 'package:babing_cubit/logic/cubit/bloc_cubit.dart';
+import 'package:babing_cubit/logic/cubit/color/color_cubit.dart';
+import 'package:babing_cubit/logic/cubit/score/score_cubit.dart';
 import 'package:babing_cubit/presentation/routes/app_router.dart';
 import 'package:babing_cubit/presentation/screens/counter_screen.dart';
+import 'package:babing_cubit/presentation/screens/cubit_communication.dart';
 import 'package:babing_cubit/presentation/screens/next_screen.dart';
 import 'package:babing_cubit/presentation/screens/payload_screen.dart';
 import 'package:babing_cubit/presentation/screens/third_screen.dart';
@@ -11,6 +14,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
+
+import 'logic/cubit/score/score_state.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -52,16 +57,18 @@ class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<ThemeBloc>(
-      create: (context)=>ThemeBloc(),
-      child: BlocBuilder<ThemeBloc,ThemeBlocState>(
-        builder:(context,state){ return MaterialApp(
-          title: 'BloCubit',
-          debugShowCheckedModeBanner: false,
-          theme:state.appThemeState==ThemeStates.dark?darkTheme:ThemeData.light(),
-         //onGenerateRoute: appRouter.onGenerateRoute,
-          home: PayLoadScreen(),
-         );},
+    return BlocProvider<ColorCubit>(
+      create: (context)=>ColorCubit(),
+      child: BlocProvider<ScoreCubit>(
+        create: (context)=>ScoreCubit(colorCubit:context.read<ColorCubit>(),),
+        child: BlocBuilder<ScoreCubit,ScoreState>(
+          builder:(context,state){ return MaterialApp(
+            title: 'CubitCommunications',
+            debugShowCheckedModeBanner: false,
+           //onGenerateRoute: appRouter.onGenerateRoute,
+            home: CubitsCommunication(),
+           );},
+        ),
       ),
     );
   }
