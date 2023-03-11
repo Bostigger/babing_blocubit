@@ -7,7 +7,7 @@ import 'package:babing_cubit/logic/cubit/color/color_cubit.dart';
 import 'package:babing_cubit/logic/cubit/score/score_cubit.dart';
 import 'package:babing_cubit/presentation/routes/app_router.dart';
 import 'package:babing_cubit/presentation/screens/counter_screen.dart';
-import 'package:babing_cubit/presentation/screens/cubit_communication.dart';
+import 'package:babing_cubit/presentation/screens/bloc_communication.dart';
 import 'package:babing_cubit/presentation/screens/next_screen.dart';
 import 'package:babing_cubit/presentation/screens/payload_screen.dart';
 import 'package:babing_cubit/presentation/screens/third_screen.dart';
@@ -62,12 +62,12 @@ class _MyAppState extends State<MyApp> {
     return MultiBlocProvider(
         providers: [
           BlocProvider(create: (context)=>ColorBloc()),
-          BlocProvider(create: (context)=>ScoreBloc(colorBloc: context.read<ColorBloc>()))
+          BlocProvider(create: (context)=>ScoreBloc())
         ], child:  MaterialApp(
             title: 'CubitCommunications',
             debugShowCheckedModeBanner: false,
            //onGenerateRoute: appRouter.onGenerateRoute,
-            home: CubitsCommunication(),
+            home: BlocCommunication(),
     ),
 
     );
