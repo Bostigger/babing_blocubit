@@ -1,8 +1,13 @@
+import 'package:babing_cubit/logic/bloc/color/color_bloc.dart';
+import 'package:babing_cubit/logic/bloc/color/color_event.dart';
+import 'package:babing_cubit/logic/bloc/score/score_bloc.dart';
 import 'package:babing_cubit/logic/cubit/color/color_cubit.dart';
 import 'package:babing_cubit/logic/cubit/color/color_state.dart';
 import 'package:babing_cubit/logic/cubit/score/score_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../logic/bloc/score/score_event.dart';
 
 class CubitsCommunication extends StatefulWidget {
   const CubitsCommunication({Key? key}) : super(key: key);
@@ -15,25 +20,15 @@ class _CubitsCommunicationState extends State<CubitsCommunication> {
   int increment=1;
   @override
   Widget build(BuildContext context) {
-    return BlocListener<ColorCubit,ColorState>(
-      listener: (context,state){
-        if(state.colorState==Colors.lightGreen){
-          increment=100;
-        }else if(state.colorState==Colors.cyan){
-          increment=20;
-        }else if(state.colorState==Colors.red){
-          increment = -10;
-        }
-      },
-      child: Scaffold(
-        backgroundColor: context.watch<ColorCubit>().state.colorState,
+    return Scaffold(
+        backgroundColor: context.watch<ColorBloc>().state.color,
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ElevatedButton(
                 onPressed: () {
-                  context.read<ColorCubit>().changeColors();
+                  context.read<ColorBloc>().add(ChangeColorEvent());
                 },
                 child: Text(
                   'Change Color',
@@ -42,13 +37,13 @@ class _CubitsCommunicationState extends State<CubitsCommunication> {
               ),
               SizedBox(height: 16),
               Text(
-                'Counter: ${context.watch<ScoreCubit>().state.scoreIncrement}',
+                'Counter: ${context.watch<ScoreBloc>().state.scoreCount}',
                 style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 16),
               ElevatedButton(
                 onPressed: () {
-                  context.read<ScoreCubit>().changeScore(increment);
+                  context.read<ScoreBloc>().add(ChangeScoreEvent());
                 },
                 child: Text(
                   'Increment Counter',
@@ -58,7 +53,6 @@ class _CubitsCommunicationState extends State<CubitsCommunication> {
             ],
           ),
         ),
-      ),
     );
   }
 }
