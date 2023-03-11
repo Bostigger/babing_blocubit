@@ -8,4 +8,8 @@
   List<Object?> get props => [];
 }
 
-class ChangeScoreEvent extends ScoreEvent{}
+class ChangeScoreEvent extends ScoreEvent{
+ int incrementSize;
+ ChangeScoreEvent({required this.incrementSize});
+
+}
