@@ -57,19 +57,17 @@ class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<ColorCubit>(
-      create: (context)=>ColorCubit(),
-      child: BlocProvider<ScoreCubit>(
-        create: (context)=>ScoreCubit(colorCubit:context.read<ColorCubit>(),),
-        child: BlocBuilder<ScoreCubit,ScoreState>(
-          builder:(context,state){ return MaterialApp(
+    return MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (context)=>ColorCubit()),
+          BlocProvider(create: (context)=>ScoreCubit())
+        ], child:  MaterialApp(
             title: 'CubitCommunications',
             debugShowCheckedModeBanner: false,
            //onGenerateRoute: appRouter.onGenerateRoute,
             home: CubitsCommunication(),
-           );},
-        ),
-      ),
+    ),
+
     );
   }
 }
