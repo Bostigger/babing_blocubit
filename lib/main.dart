@@ -1,3 +1,5 @@
+import 'package:babing_cubit/logic/bloc/color/color_bloc.dart';
+import 'package:babing_cubit/logic/bloc/score/score_bloc.dart';
 import 'package:babing_cubit/logic/bloc/theme/theme.bloc.dart';
 import 'package:babing_cubit/logic/bloc/theme/theme.state.dart';
 import 'package:babing_cubit/logic/cubit/bloc_cubit.dart';
@@ -59,8 +61,8 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
         providers: [
-          BlocProvider(create: (context)=>ColorCubit()),
-          BlocProvider(create: (context)=>ScoreCubit())
+          BlocProvider(create: (context)=>ColorBloc()),
+          BlocProvider(create: (context)=>ScoreBloc(colorBloc: context.read<ColorBloc>()))
         ], child:  MaterialApp(
             title: 'CubitCommunications',
             debugShowCheckedModeBanner: false,
