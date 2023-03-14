@@ -1,23 +1,19 @@
-import 'package:babing_cubit/logic/bloc/color/color_bloc.dart';
-import 'package:babing_cubit/logic/bloc/score/score_bloc.dart';
-import 'package:babing_cubit/logic/bloc/theme/theme.bloc.dart';
-import 'package:babing_cubit/logic/bloc/theme/theme.state.dart';
-import 'package:babing_cubit/logic/cubit/bloc_cubit.dart';
-import 'package:babing_cubit/logic/cubit/color/color_cubit.dart';
-import 'package:babing_cubit/logic/cubit/score/score_cubit.dart';
+
+import 'package:babing_cubit/logic/cubit/todo_search/todo_search_cubit.dart';
+import 'package:babing_cubit/logic/cubit/todos/todo_list_cubit.dart';
 import 'package:babing_cubit/presentation/routes/app_router.dart';
-import 'package:babing_cubit/presentation/screens/counter_screen.dart';
-import 'package:babing_cubit/presentation/screens/bloc_communication.dart';
-import 'package:babing_cubit/presentation/screens/next_screen.dart';
-import 'package:babing_cubit/presentation/screens/payload_screen.dart';
-import 'package:babing_cubit/presentation/screens/third_screen.dart';
+
+import 'package:babing_cubit/presentation/screens/todo_screen_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 
-import 'logic/cubit/score/score_state.dart';
+import 'logic/cubit/filtered_todos/filtered_todos_cubit.dart';
+import 'logic/cubit/todo_count/active_todo_count_cubit.dart';
+import 'logic/cubit/todo_filter/todo_filter_cubit.dart';
+
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,17 +34,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final AppRouter appRouter = AppRouter();
-  ThemeData darkTheme = ThemeData.from(
-    colorScheme: ColorScheme.dark(),
-    textTheme: TextTheme(
-      bodyText1: TextStyle(
-        color: Colors.white,
-      ),
-      bodyText2: TextStyle(
-        color: Colors.white,
-      ),
-    ),
-  );
+
 
   @override
   void dispose() {
@@ -61,13 +47,16 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
         providers: [
-          BlocProvider(create: (context)=>ColorBloc()),
-          BlocProvider(create: (context)=>ScoreBloc())
+          BlocProvider<TodoListCubit>(create: (context)=>TodoListCubit()),
+          BlocProvider<TodoSearchCubit>(create: (context)=>TodoSearchCubit()),
+          BlocProvider<TodoFilterCubit>(create: (context)=>TodoFilterCubit()),
+          BlocProvider<ActiveTodoCountCubit>(create: (context)=>ActiveTodoCountCubit(context.read<TodoListCubit>())),
+          BlocProvider<FilteredTodosCubit>(create: (context)=>FilteredTodosCubit(context.read<TodoListCubit>(),context.read<TodoSearchCubit>(),context.read<TodoFilterCubit>())),
         ], child:  MaterialApp(
-            title: 'CubitCommunications',
+            title: 'Todo App',
             debugShowCheckedModeBanner: false,
-           //onGenerateRoute: appRouter.onGenerateRoute,
-            home: BlocCommunication(),
+           onGenerateRoute: appRouter.onGenerateRoute,
+
     ),
 
     );
