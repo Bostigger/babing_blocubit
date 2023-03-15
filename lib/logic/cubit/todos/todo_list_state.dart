@@ -10,7 +10,7 @@ class TodoListState extends Equatable {
     return  TodoListState(myTodos: [
       Todo(id: '1',description: 'Learn Bloc'),
       Todo(id: '2',description: 'Go Home'),
-      Todo(id: '3',description: 'Create a package', completed: true),
+      Todo(id: '3',description: 'Create a package'),
     ]);
   }
 

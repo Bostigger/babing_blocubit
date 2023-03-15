@@ -9,9 +9,10 @@ import '../todos/todo_list_state.dart';
 
 class ActiveTodoCountCubit extends Cubit<ActiveTodoCountState>{
   final TodoListCubit todoListCubit;
+  final totalActiveItems;
   int totalActiveTodos =0;
   late final StreamSubscription todoListSubscription;
-  ActiveTodoCountCubit(this.todoListCubit):super(ActiveTodoCountState.initial()){
+  ActiveTodoCountCubit(this.todoListCubit,this.totalActiveItems):super(ActiveTodoCountState(myTotalActiveTodos: totalActiveItems)){
     todoListSubscription = todoListCubit.stream.listen((TodoListState todoListState) {
       totalActiveTodos = todoListState.myTodos.where((Todo t) => !t.completed).toList().length; });
   }
