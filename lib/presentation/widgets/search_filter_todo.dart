@@ -5,6 +5,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../logic/cubit/filtered_todos/filtered_todos_cubit.dart';
+
 class SearchAndFilterTodo extends StatefulWidget {
   const SearchAndFilterTodo({Key? key}) : super(key: key);
 
@@ -40,7 +42,7 @@ class _SearchAndFilterTodoState extends State<SearchAndFilterTodo> {
         SizedBox(height: 20,),
         Row(
           children: [
-            FilterButton(context,Filter.all),
+            FilterButton( context,Filter.all),
             FilterButton(context,Filter.active),
             FilterButton(context,Filter.completed),
           ],
@@ -53,6 +55,9 @@ class _SearchAndFilterTodoState extends State<SearchAndFilterTodo> {
 Widget FilterButton(BuildContext context,Filter filter){
   return TextButton(onPressed: (){
     context.read<TodoFilterCubit>().changeFilter(filter);
+    context.read<FilteredTodosCubit>().getFilteredTodos();
+
+    print(filter);
   },
       child: Text(filter==Filter.all ? 'All':filter==Filter.active?'Active':'Completed',
         style: TextStyle(fontSize: 18,color: TextColor(context, filter)),));

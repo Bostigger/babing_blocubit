@@ -23,8 +23,7 @@ class TodoListCubit extends Cubit<TodoListState> {
     emit(state.copyWith(myTodos: todoListItems));
   }
   void toggleCompletion(String id){
-    final todoListItems = state.myTodos;
-    todoListItems.map((Todo todo){
+    final todoListItems = state.myTodos.map((Todo todo){
       if(todo.id==id){
         return Todo( id: todo.id, description: todo.description, completed: !todo.completed);
       }
