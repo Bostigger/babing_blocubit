@@ -50,8 +50,8 @@ class _MyAppState extends State<MyApp> {
           BlocProvider<TodoListCubit>(create: (context)=>TodoListCubit()),
           BlocProvider<TodoSearchCubit>(create: (context)=>TodoSearchCubit()),
           BlocProvider<TodoFilterCubit>(create: (context)=>TodoFilterCubit()),
-          BlocProvider<ActiveTodoCountCubit>(create: (context)=>ActiveTodoCountCubit(context.read<TodoListCubit>())),
-          BlocProvider<FilteredTodosCubit>(create: (context)=>FilteredTodosCubit(context.read<TodoListCubit>(),context.read<TodoSearchCubit>(),context.read<TodoFilterCubit>())),
+          BlocProvider<ActiveTodoCountCubit>(create: (context)=>ActiveTodoCountCubit(context.read<TodoListCubit>(),context.read<TodoListCubit>().state.myTodos.toList().length)),
+          BlocProvider<FilteredTodosCubit>(create: (context)=>FilteredTodosCubit(context.read<TodoListCubit>().state.myTodos,context.read<TodoListCubit>(),context.read<TodoSearchCubit>(),context.read<TodoFilterCubit>())),
         ], child:  MaterialApp(
             title: 'Todo App',
             debugShowCheckedModeBanner: false,
