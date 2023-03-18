@@ -40,35 +40,92 @@ class FilteredTodosList extends StatelessWidget {
   }
 }
 
-Widget showBackground(int direction){
+Widget showBackground(int direction) {
   return Container(
-    margin: EdgeInsets.all(10),
-    padding: EdgeInsets.symmetric(horizontal: 20),
+    margin: const EdgeInsets.all(10),
+    padding: const EdgeInsets.symmetric(horizontal: 20),
     color: Colors.red,
-    alignment: direction==0?Alignment.centerLeft:Alignment.centerRight,
-    child: Text('Delete'),
+    alignment: direction == 0 ? Alignment.centerLeft : Alignment.centerRight,
+    child: const Text('Delete'),
   );
 }
+
 class TodoItem extends StatefulWidget {
   final Todo todo;
-  const TodoItem({Key? key, required this.todo}) : super(key: key);
 
+  const TodoItem({Key? key, required this.todo}) : super(key: key);
 
   @override
   State<TodoItem> createState() => _TodoItemState();
 }
 
 class _TodoItemState extends State<TodoItem> {
+  late final TextEditingController todoEditingController;
+
+  @override
+  void initState() {
+    todoEditingController = TextEditingController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    todoEditingController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Checkbox(
-        value: widget.todo.completed, onChanged: (bool? value) {
-          context.read<TodoListCubit>().toggleCompletion(widget.todo.id);
+      onTap: () {
+        showDialog(
+            context: context,
+            builder: (context) {
+              bool error = false;
+              todoEditingController.text = widget.todo.description;
+              return StatefulBuilder(
+                  builder: (BuildContext context, StateSetter setState) {
+                return AlertDialog(
+                  title: const Text('Edit Todo'),
+                  content: TextField(
+                    controller: todoEditingController,
+                    autofocus: true,
+                    decoration: InputDecoration(
+                      errorText: error ? "Value cant not be empty" : null,
+
+                    ),
+                  ),
+                  actions: [
+                    TextButton(
+                        onPressed: () => Navigator.of(context).pop(),
+                        child: const Text('Cancel')),
+                    TextButton(
+                        onPressed: () {
+                          // print("am here");
+                          setState((){
+                            error  = todoEditingController.text.isNotEmpty?false:true;
+                            if(!error){
+                              if (todoEditingController.text.isNotEmpty) {
+                                context.read<TodoListCubit>().editTodo(
+                                    widget.todo.id, todoEditingController.text);
+                                Navigator.of(context).pop();
+                              }
+                            }
+                          });
+                        },
+                        child: const Text('Update'))
+                  ],
+                );
+              });
+            });
       },
+      leading: Checkbox(
+        value: widget.todo.completed,
+        onChanged: (bool? value) {
+          context.read<TodoListCubit>().toggleCompletion(widget.todo.id);
+        },
       ),
       title: Text(widget.todo.description),
     );
   }
 }
-

@@ -13,8 +13,7 @@ class TodoListCubit extends Cubit<TodoListState> {
   }
 
   void editTodo(String id, String newDescription){
-    final todoListItems = state.myTodos;
-    todoListItems.map((Todo todo){
+    final todoListItems = state.myTodos.map((Todo todo){
       if(todo.id==id){
         return Todo( id: todo.id, description: newDescription, completed: todo.completed);
       }
