@@ -1,7 +1,9 @@
 import 'package:babing_cubit/data/models/todo_model.dart';
-import 'package:babing_cubit/logic/cubit/filtered_todos/filtered_todos_cubit.dart';
-import 'package:babing_cubit/logic/cubit/filtered_todos/filtered_todos_state.dart';
-import 'package:babing_cubit/logic/cubit/todos/todo_list_cubit.dart';
+import 'package:babing_cubit/logic/bloc/todo/filtered_todos/filtered_todos_bloc.dart';
+import 'package:babing_cubit/logic/bloc/todo/filtered_todos/filtered_todos_state.dart';
+import 'package:babing_cubit/logic/bloc/todo/todo_list/todo_list_bloc.dart';
+import 'package:babing_cubit/logic/bloc/todo/todo_list/todo_list_event.dart';
+
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,7 +13,7 @@ class FilteredTodosList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<FilteredTodosCubit, FilteredTodosState>(
+    return BlocBuilder<FilteredTodosBloc, FilteredTodosBlocState>(
       builder: (context, state) {
         final todos = state.filteredTodos;
         return ListView.separated(
@@ -29,7 +31,7 @@ class FilteredTodosList extends StatelessWidget {
               background: showBackground(0),
               secondaryBackground: showBackground(1),
               onDismissed: (_) {
-                context.read<TodoListCubit>().removeTodoItem(todos[index]);
+                context.read<TodoListBloc>().add(RemoveTodoEvent(todo: todos[index]));
               },
               child: TodoItem(todo: todos[index]),
             );
@@ -106,12 +108,13 @@ class _TodoItemState extends State<TodoItem> {
                             error  = todoEditingController.text.isNotEmpty?false:true;
                             if(!error){
                               if (todoEditingController.text.isNotEmpty) {
-                                context.read<TodoListCubit>().editTodo(
-                                    widget.todo.id, todoEditingController.text);
+                                context.read<TodoListBloc>().add(EditTodoEvent(
+                                    id:widget.todo.id, description:todoEditingController.text));
                                 Navigator.of(context).pop();
                               }
                             }
                           });
+
                         },
                         child: const Text('Update'))
                   ],
@@ -122,7 +125,7 @@ class _TodoItemState extends State<TodoItem> {
       leading: Checkbox(
         value: widget.todo.completed,
         onChanged: (bool? value) {
-          context.read<TodoListCubit>().toggleCompletion(widget.todo.id);
+          context.read<TodoListBloc>().add(ToggleTodoCompletionEvent(id:widget.todo.id));
         },
       ),
       title: Text(widget.todo.description),

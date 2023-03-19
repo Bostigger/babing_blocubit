@@ -1,3 +1,5 @@
+import 'package:babing_cubit/logic/bloc/todo/todo_list/todo_list_bloc.dart';
+import 'package:babing_cubit/logic/bloc/todo/todo_list/todo_list_event.dart';
 import 'package:babing_cubit/logic/cubit/todos/todo_list_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,7 +31,7 @@ class _CreateTodoState extends State<CreateTodo> {
         ),
         onSubmitted: (String? todoItem){
           if(todoItem != null && todoItem.trim().isNotEmpty){
-            context.read<TodoListCubit>().addTodo(todoItem);
+            context.read<TodoListBloc>().add(AddTodoEvent(description: todoItem));
           }
         },
       ),
