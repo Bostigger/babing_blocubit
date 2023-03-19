@@ -1,4 +1,9 @@
 
+import 'package:babing_cubit/logic/bloc/todo/filtered_todos/filtered_todos_bloc.dart';
+import 'package:babing_cubit/logic/bloc/todo/todo_count/active_todo_count_bloc.dart';
+import 'package:babing_cubit/logic/bloc/todo/todo_filters/todo_filter_bloc.dart';
+import 'package:babing_cubit/logic/bloc/todo/todo_list/todo_list_bloc.dart';
+import 'package:babing_cubit/logic/bloc/todo/todo_search/todo_search_bloc.dart';
 import 'package:babing_cubit/logic/cubit/todo_search/todo_search_cubit.dart';
 import 'package:babing_cubit/logic/cubit/todos/todo_list_cubit.dart';
 import 'package:babing_cubit/presentation/routes/app_router.dart';
@@ -47,13 +52,13 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
         providers: [
-          BlocProvider<TodoListCubit>(create: (context)=>TodoListCubit()),
-          BlocProvider<TodoSearchCubit>(create: (context)=>TodoSearchCubit()),
-          BlocProvider<TodoFilterCubit>(create: (context)=>TodoFilterCubit()),
-          BlocProvider<ActiveTodoCountCubit>(create: (context)=>ActiveTodoCountCubit(context.read<TodoListCubit>(),context.read<TodoListCubit>().state.myTodos.toList().length)),
-          BlocProvider<FilteredTodosCubit>(create: (context)=>FilteredTodosCubit(context.read<TodoListCubit>().state.myTodos,context.read<TodoListCubit>(),context.read<TodoSearchCubit>(),context.read<TodoFilterCubit>())),
+          BlocProvider<TodoListBloc>(create: (context)=>TodoListBloc()),
+          BlocProvider<TodoSearchBloc>(create: (context)=>TodoSearchBloc()),
+          BlocProvider<TodoFilterBloc>(create: (context)=>TodoFilterBloc()),
+          BlocProvider<ActiveTodoCountBloc>(create: (context)=>ActiveTodoCountBloc(totalActiveItems: context.read<TodoListBloc>().state.myTodos.length, todoListBloc: context.read<TodoListBloc>())),
+          BlocProvider<FilteredTodosBloc>(create: (context)=>FilteredTodosBloc(todosListBloc: context.read<TodoListBloc>(), todoSearchBloc: context.read<TodoSearchBloc>(), todoFilterBloc: context.read<TodoFilterBloc>(), initialFilteredTodos: context.read<TodoListBloc>().state.myTodos)),
         ], child:  MaterialApp(
-            title: 'Todo App',
+            title: 'Todo App-BLOC',
             debugShowCheckedModeBanner: false,
            onGenerateRoute: appRouter.onGenerateRoute,
 

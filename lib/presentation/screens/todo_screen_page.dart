@@ -1,3 +1,4 @@
+import 'package:babing_cubit/logic/bloc/todo/todo_count/active_todo_count_bloc.dart';
 import 'package:babing_cubit/logic/cubit/todo_count/active_todo_count_cubit.dart';
 import 'package:babing_cubit/logic/cubit/todos/todo_list_cubit.dart';
 import 'package:babing_cubit/logic/cubit/todos/todo_list_state.dart';
@@ -5,6 +6,8 @@ import 'package:babing_cubit/presentation/widgets/search_filter_todo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../data/models/todo_model.dart';
+import '../../logic/bloc/todo/todo_list/todo_list_bloc.dart';
 import '../widgets/create_todo.dart';
 import '../widgets/filtered_todo_list.dart';
 
@@ -19,7 +22,7 @@ class TodoScreenPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             const Text("MyTodoApp"),
-                Text('${context.watch<ActiveTodoCountCubit>().state.myTotalActiveTodos} items')
+                Text('${context.watch<TodoListBloc>().state.myTodos.where((Todo t) => !t.completed).toList().length} items')
           ],
         ),
         elevation: 0,
