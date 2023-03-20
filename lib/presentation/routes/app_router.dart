@@ -1,8 +1,7 @@
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../screens/todo_screen_page.dart';
+import '../screens/home_screen.dart';
 
 class AppRouter {
   //final CounterBloc _counterBloc = CounterBloc();
@@ -11,7 +10,7 @@ class AppRouter {
     switch (routeSettings.name) {
       case '/':
         return MaterialPageRoute(
-            builder: (context) => TodoScreenPage());
+            builder: (context) => HomeScreen());
         break;
 
       default:
